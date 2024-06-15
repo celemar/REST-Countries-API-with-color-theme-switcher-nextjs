@@ -1,24 +1,19 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getCountries } from "@/app/utils/utils";
-import Dropdown from "./dropdown-filter";
 
 export default async function CountriesList() {
   const countries = await getCountries();
 
-
   return (
     <main className="mt-16">
-      <div>
-   
-      </div>
       <div className="flex gap-8 flex-wrap">
         {countries.map((country) => (
           <div
             key={country.numericCode}
             className="flex flex-col mx-auto mb-8 shadow rounded-md max-w-[350px] max-h-[350px] bg-white dark:bg-[#2b3743]"
           >
-            <div  className="w-[265px] max-h-[160px] h-full ">
+            <div className="w-[265px] max-h-[160px] h-full ">
               <Image
                 src={country.flags.svg}
                 key={country.numericCode}
@@ -37,14 +32,19 @@ export default async function CountriesList() {
                 {country.name}
               </Link>
               <p className="font-light dark:text-[#d4e1ea]">
-                <span className="font-semibold dark:text-[white]">Population: </span>
+                <span className="font-semibold dark:text-[white]">
+                  Population:{" "}
+                </span>
                 {country.population}
               </p>
               <p className="font-light dark:text-[#d4e1ea]">
-                <span className="font-semibold dark:text-[white]">Region:</span> {country.region}
+                <span className="font-semibold dark:text-[white]">Region:</span>{" "}
+                {country.region}
               </p>
               <p className="font-light dark:text-[#d4e1ea]">
-                <span className="font-semibold dark:text-[white]">Capital: </span>
+                <span className="font-semibold dark:text-[white]">
+                  Capital:{" "}
+                </span>
                 {country.capital}
               </p>
             </div>
