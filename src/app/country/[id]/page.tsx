@@ -3,27 +3,26 @@ import BackBtn from "@/components/back-btn";
 import { Country } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const allCountries = await getCountries();
 
   const findCountry = async () => {
     return allCountries.find(
-      (country) => country.name === params.id
+      (country) => country.numericCode === params.id
     ) as Country;
   };
 
   const country = await findCountry();
-  const borderCountries = country.borders;
+  const countryBorders = country.borders ?? [];
 
-  const filteredBorderCountries = allCountries.filter((country) =>
-    borderCountries.includes(country.alpha3Code)
+  const filteredCountryBorders = allCountries.filter((country) =>
+    countryBorders.includes(country.alpha3Code)
   );
-  const filteredCountryNames = filteredBorderCountries.map(
+  const filteredCountryNames = filteredCountryBorders.map(
     (country) => country.name
   );
-  console.log(country)
+  console.log(country);
   console.log(filteredCountryNames);
 
   const languagesString = country.languages
@@ -31,85 +30,86 @@ export default async function Page({ params }: { params: { id: string } }) {
     .join(", ");
 
   return (
-    <main className="mt-8 mb-10 px-6 dark:text-white">
+    <main className="mt-8 md:mt-[6vh] mb-10 px-6 dark:text-white max-w-[1440px] mx-auto">
       <BackBtn />
-      <section className="mt-12 text-left">
-        <div className="mx-auto max-w-[530px]">
+      <section className="mt-12 md:mt-[6vh] text-left md:flex md:items-center md:justify-center md:gap-14">
+        <div className="max-w-[560px] md:max-w-[unset] md:w-1/2 mx-auto md:mx-0">
           <Image
             src={country.flags.svg}
             alt={country.name}
             className="object-cover"
-            width="530"
+            width="560"
             height="320"
+            layout="responsive"
+            sizes="(max-width:768px) calc(100vw - 48px), 560px"
           />
         </div>
-        <div className="mt-10 mx-auto">
-          <h2 className="text-xl font-extrabold my-6">{country.name}</h2>
-          <p className="mb-2">
-            <span className="font-semibold">Native Name:</span>{" "}
-            {country.nativeName}
-          </p>
-          <p className="mb-2">
-            <span className="font-semibold">Population:</span>{" "}
-            {country.population.toLocaleString()}
-          </p>
-          <p className="mb-2">
-            <span className="font-semibold">Region:</span> {country.region}
-          </p>
-          <p className="mb-2">
-            <span className="font-semibold">Sub Region:</span>{" "}
-            {country.subregion}
-          </p>
-          <p className="mb-10">
-            <span className="font-semibold">Capital:</span> {country.capital}
-          </p>
-          <p className="mb-2">
-            <span className="font-semibold">Top Level Domain:</span>{" "}
-            {country.topLevelDomain}
-          </p>
-          <p className="mb-2">
-            <span className="font-semibold">Currencies:</span>{" "}
-            {country.currencies[0].name}
-          </p>
-          <p className="mb-2">
-            <span className="font-semibold">Languages:</span> {languagesString}
-          </p>
-        </div>
-
-        <h3 className="mt-10 text-lg">
-          <span className="font-bold">Border Countries: </span>
-        </h3>
-
-        <div className="mt-4 flex flex-wrap gap-4">
-          {filteredBorderCountries.map((country) => (
-            <Link
-              key={country.numericCode}
-              href={`/country/${encodeURIComponent(country.name)}`}
-              className="px-6 py-1  shadow-md flex-grow text-center dark:bg-[#2b3743]"
-            >
-              {country.name}
-            </Link>
-          ))}
-        </div>
-      {filteredBorderCountries.length > 0 && (
-          <>
-            <h3 className="mt-10 text-lg">
-              <span className="font-bold">Border Countries: </span>
-            </h3>
-
-            <div className="mt-4 flex flex-wrap gap-4">
-              {filteredBorderCountries.map((country) => (
-                <Link
-                  key={country.numericCode}
-                  href={`/country/${country.name}`}
-                  className="px-6 py-1 shadow-md flex-grow text-center dark:bg-[#2b3743]"
-                >
-                  {country.name}
-                </Link>
-              ))}
+        <div className="mx-auto md:w-1/2">
+          <h2 className="text-xl font-extrabold my-8 md:text-2xl">
+            {country.name}
+          </h2>
+          <div className="md:flex">
+            <div className="md:w-1/2">
+              <p className="mb-2 dark:text-[#d4e1ea]">
+                <span className="font-bold dark:text-[white]">
+                  Native Name:
+                </span>{" "}
+                {country.nativeName}
+              </p>
+              <p className="mb-2 dark:text-[#d4e1ea]">
+                <span className="font-bold dark:text-[white]">Population:</span>{" "}
+                {country.population.toLocaleString()}
+              </p>
+              <p className="mb-2 dark:text-[#d4e1ea]">
+                <span className="font-bold dark:text-[white]">Region:</span>{" "}
+                {country.region}
+              </p>
+              <p className="mb-2 dark:text-[#d4e1ea]">
+                <span className="font-bold dark:text-[white]">Sub Region:</span>{" "}
+                {country.subregion}
+              </p>
+              <p className="mb-10 dark:text-[#d4e1ea]">
+                <span className="font-bold dark:text-[white]">Capital:</span>{" "}
+                {country.capital}
+              </p>
             </div>
-          </>
-        )}
+
+            <div className="md:w-1/2">
+              <p className="mb-2 dark:text-[#d4e1ea]">
+                <span className="font-bold dark:text-[white]">
+                  Top Level Domain:
+                </span>{" "}
+                {country.topLevelDomain}
+              </p>
+              <p className="mb-2 dark:text-[#d4e1ea]">
+                <span className="font-bold dark:text-[white]">Currencies:</span>{" "}
+                {country.currencies[0].name}
+              </p>
+              <p className="mb-2 dark:text-[#d4e1ea]">
+                <span className="font-bold dark:text-[white]">Languages:</span>{" "}
+                {languagesString}
+              </p>
+            </div>
+          </div>
+          {filteredCountryBorders.length > 0 && (
+            <div className="md:flex">
+              <h3 className="mt-10 md:mt-0 text-lg font-bold min-w-[14ch]">
+                Border Countries:
+              </h3>
+              <div className="mt-4 md:mt-0 pl-4 flex flex-wrap gap-4">
+                {filteredCountryBorders.map((country) => (
+                  <Link
+                    key={country.numericCode}
+                    href={`/country/${country.numericCode}`}
+                    className="px-6 py-1 custom-shadow flex-grow text-center dark:bg-[#2b3743] transition duration-200 ease-in-out hover:bg-[#EBEBEB] dark:hover:bg-[gray-700]"
+                  >
+                    {country.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
       </section>
     </main>
   );
