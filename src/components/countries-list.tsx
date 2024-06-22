@@ -11,7 +11,7 @@ export default async function CountriesList({
 
   return (
     <section>
-      <div className="flex gap-8 flex-wrap lg:px-10">
+      <div className="flex gap-8 flex-wrap xl:px-10">
         {countries.map((country) => (
           <div
             key={country.numericCode}
