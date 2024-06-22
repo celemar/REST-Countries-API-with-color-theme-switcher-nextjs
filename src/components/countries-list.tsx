@@ -33,7 +33,7 @@ export default async function CountriesList({
                 href={`/country/${country.numericCode}`}
                 className="font-extrabold pb-5 text-lg pointer hover:underline"
               >
-                {country.name}
+                <h2> {country.name}</h2>
               </Link>
               <p className="font-light dark:text-[#d4e1ea]">
                 <span className="font-semibold dark:text-[white]">
