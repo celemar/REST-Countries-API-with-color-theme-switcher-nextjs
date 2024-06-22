@@ -30,7 +30,8 @@ export default function Search({ placeholder }: { placeholder: string }) {
         Search
       </label>
       <input
-        className="block w-full p-4 pl-14 text-sm  text-gray-900 custom-shadow rounded bg-white focus:outline-blue-900 dark:bg-[#2b3743]  dark:placeholder-gray-100 dark:text-gray-100" 
+        id="search"
+        className="block w-full p-4 pl-14 text-sm  text-gray-900 custom-shadow rounded bg-white focus:outline-blue-900 dark:bg-[#2b3743]  dark:placeholder-gray-100 dark:text-gray-100"
         placeholder={placeholder}
         onChange={(e) => {
           handleSearch(e.target.value);
