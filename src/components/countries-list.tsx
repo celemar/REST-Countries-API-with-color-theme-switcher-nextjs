@@ -10,8 +10,8 @@ export default async function CountriesList({
   const countries = await getCountries({ query, region });
 
   return (
-    <main>
-      <div className="flex gap-8 flex-wrap">
+    <section>
+      <div className="flex gap-8 flex-wrap lg:px-10">
         {countries.map((country) => (
           <div
             key={country.numericCode}
@@ -55,6 +55,6 @@ export default async function CountriesList({
           </div>
         ))}
       </div>
-    </main>
+    </section>
   );
 }

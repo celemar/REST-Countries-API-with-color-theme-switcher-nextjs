@@ -25,9 +25,9 @@ export default async function Page({ params }: { params: { id: string } }) {
     .join(", ");
 
   return (
-    <main className="mt-8 md:mt-[6vh] mb-10 px-6 dark:text-white max-w-[1440px] mx-auto">
+    <section className="mt-8 md:mt-[6vh] mb-10 px-6 dark:text-white max-w-[1440px] mx-auto">
       <BackBtn />
-      <section className="mt-12 md:mt-[6vh] text-left md:flex md:items-center md:justify-center md:gap-14">
+      <div className="mt-12 md:mt-[6vh] text-left md:flex md:items-center md:justify-center md:gap-14">
         <div className="max-w-[560px] md:max-w-[unset] md:w-1/2 mx-auto md:mx-0">
           <Image
             src={country.flags.svg}
@@ -105,7 +105,7 @@ export default async function Page({ params }: { params: { id: string } }) {
             </div>
           )}
         </div>
-      </section>
-    </main>
+      </div>
+    </section>
   );
 }

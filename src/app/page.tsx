@@ -14,7 +14,7 @@ export default function Home({
   
   return (
     <main className="min-h-screen flex flex-col items-center max-w-[1440px] md:mx-auto">
-      <div className="w-full flex flex-col md:flex-row  md:justify-between md:items-center md:my-4 py-8 px-4 lg:px-8">
+      <div className="w-full flex flex-col md:flex-row  md:justify-between md:items-center md:my-4 py-8 px-4 lg:px-16">
         <Search placeholder="Search for a country..." />
         <Dropdown />
       </div>
