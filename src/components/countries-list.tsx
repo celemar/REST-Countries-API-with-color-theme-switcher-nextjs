@@ -1,12 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getCountries } from "@/app/utils/utils";
+import { CountriesParams } from "@/types";
 
-export default async function CountriesList() {
-  const countries = await getCountries();
+export default async function CountriesList({
+  query,
+  region,
+}: CountriesParams) {
+  const countries = await getCountries({ query, region });
 
   return (
-    <main className="mt-16">
+    <main>
       <div className="flex gap-8 flex-wrap">
         {countries.map((country) => (
           <div

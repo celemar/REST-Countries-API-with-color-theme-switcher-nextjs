@@ -8,7 +8,7 @@ import Providers from "./providers";
 const nunito = Nunito_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "REST Countries API with color theme switcher",
+  title: "REST Countries API",
   description: "REST Countries API with color theme switcher",
 };
 

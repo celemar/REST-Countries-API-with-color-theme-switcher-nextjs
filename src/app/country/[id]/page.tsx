@@ -19,12 +19,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   const filteredCountryBorders = allCountries.filter((country) =>
     countryBorders.includes(country.alpha3Code)
   );
-  const filteredCountryNames = filteredCountryBorders.map(
-    (country) => country.name
-  );
-  console.log(country);
-  console.log(filteredCountryNames);
-
+  
   const languagesString = country.languages
     .map((language) => language.name)
     .join(", ");
@@ -101,7 +96,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                   <Link
                     key={country.numericCode}
                     href={`/country/${country.numericCode}`}
-                    className="px-6 py-1 custom-shadow flex-grow text-center dark:bg-[#2b3743] transition duration-200 ease-in-out hover:bg-[#EBEBEB] dark:hover:bg-[gray-700]"
+                    className="px-6 py-1 custom-shadow flex-grow text-center dark:bg-[#2b3743] transition duration-200 ease-in-out hover:bg-[#EBEBEB] dark:hover:bg-gray-600"
                   >
                     {country.name}
                   </Link>

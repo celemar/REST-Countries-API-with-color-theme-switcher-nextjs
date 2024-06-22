@@ -38,3 +38,8 @@ export type Country = {
   languages: Language[];
   borders: string[];
 };
+
+export type CountriesParams = {
+  query?: string;
+  region?: "Africa" | "Americas" | "Asia" | "Europe" | "Oceania" | undefined;
+}

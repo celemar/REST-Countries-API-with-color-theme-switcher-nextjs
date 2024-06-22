@@ -1,56 +1,79 @@
 "use client";
-import React, { useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
+import { IoMdClose, IoIosArrowDown } from "react-icons/io";
 
-interface DropdownProps {
-  onSelect: (region: string) => void;
-}
-
-const Dropdown: React.FC<DropdownProps> = ({ onSelect }) => {
+export default function Dropdown() {
   const [isOpen, setIsOpen] = useState(false);
-  const dropdownItems = ["Africa", "America", "Asia", "Europe", "Oceania"];
+  const allowedRegions = ["Africa", "Americas", "Asia", "Europe", "Oceania"];
 
-  const handleSelect = (region: string) => {
-    setIsOpen(false);
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const handleRegionChange = (region: string) => {
+    const params = new URLSearchParams(searchParams);
+    if (region) {
+      params.set("region", region);
+    } else {
+      params.delete("region");
+    }
+    router.replace(`${pathname}?${params.toString()}`);
+    setIsOpen(false); 
   };
 
+  const hasFilter = searchParams.has("region");
+
   return (
-    <div className="relative ml-auto mt-8 px-8">
+    <div className="relative mt-8 md:mt-0">
       <button
-        onClick={() => setIsOpen(!isOpen)}
-        className=" bg-white dark:text-gray-200 focus:ring-2 focus:outline-none focus:ring-blue-900 dark:focus:ring-blue-100 font-semibold rounded text-sm px-5 py-4 text-center inline-flex shadow items-center dark:bg-[#2b3743]"
+        onClick={(e) => {
+          if (!(e.target instanceof IoMdClose)) {
+            setIsOpen(!isOpen);
+          }
+        }}
+        className="bg-white dark:text-gray-100 focus:ring-2 focus:outline-none focus:ring-blue-900 dark:focus:ring-blue-100 font-semibold rounded text-sm p-4 inline-flex shadow items-center text-left dark:bg-[#2b3743] custom-shadow w-48 justify-between"
         type="button"
       >
-        Filter by Region
-        <svg
-          className="w-2.5 h-2.5 ms-3 ml-8"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 10 6"
-        >
-          <path
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="m1 1 4 4 4-4"
+        <span>
+          {hasFilter ? searchParams.get("region") : "Filter by Region"}
+        </span>
+        {hasFilter ? (
+          <IoMdClose
+            className="w-4 h-4 cursor-pointer"
+            onClick={(e) => {
+              e.stopPropagation();
+              router.push(pathname);
+            }}
           />
-        </svg>
+        ) : (
+          <IoIosArrowDown className="w-4 h-4 cursor-pointer" />
+        )}
       </button>
 
       {isOpen && (
-        <div className="z-10 mt-1.5 absolute bg-white divide-y  divide-gray-100 rounded shadow w-[11.4rem] dark:bg-gray-700">
+        <div className="z-10 mt-1.5 absolute bg-white rounded w-[12rem] dark:bg-[#2b3743] custom-shadow">
+          <label
+            htmlFor="region"
+            className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-100"
+          >
+            Select a region
+          </label>
+
           <ul
             className="py-2 text-sm dark:text-gray-200"
-            aria-labelledby="dropdownButton"
+            aria-labelledby="regionLabel"
           >
-            {dropdownItems.map((item) => (
-              <li key={item}>
+            {allowedRegions.map((region) => (
+              <li key={region}>
                 <button
-                  onClick={() => handleSelect(item)}
-                  className="block w-full font-semibold text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#2b3743] dark:hover:text-white"
+                  value={region}
+                  onClick={(e) => {
+                    handleRegionChange(region);
+                  }}
+                  className="block w-full font-semibold text-left px-4 py-2 hover:bg-gray-100  dark:hover:bg-gray-700 focus:outline-blue-900 dark:hover:text-white"
                 >
-                  {item}
+                  {region}
                 </button>
               </li>
             ))}
@@ -59,6 +82,4 @@ const Dropdown: React.FC<DropdownProps> = ({ onSelect }) => {
       )}
     </div>
   );
-};
-
-export default Dropdown;
+}
